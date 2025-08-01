@@ -34,10 +34,8 @@ A comprehensive sales analytics dashboard built with Next.js 15, TypeScript, Tai
 
 ##  Project Structure
 
-`
 src/
  app/                    # Next.js App Router
-
     dashboard/         # Dashboard page
     globals.css        # Global styles
     layout.tsx         # Root layout
@@ -58,7 +56,6 @@ src/
     salesData.ts      # Mock sales data and utilities
  lib/                  # Utility functions
      utils.ts          # Helper functions
-`
 
 ##  What I Built
 
