@@ -1,0 +1,89 @@
+﻿'use client';
+
+import { formatCurrency } from '@/lib/utils';
+import React from 'react';
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart as RechartsLineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+
+interface LineChartProps {
+  data: any[];
+  xKey: string;
+  yKey: string;
+  title?: string;
+  color?: string;
+  height?: number;
+}
+
+export const LineChart: React.FC<LineChartProps> = ({
+  data,
+  xKey,
+  yKey,
+  title,
+  color = '#10b981',
+  height = 300,
+}) => {
+  const formatTooltipValue = (value: any, name: string) => {
+    if (name.toLowerCase().includes('sales') || name.toLowerCase().includes('profit')) {
+      return [formatCurrency(value), name];
+    }
+    return [value, name];
+  };
+
+  return (
+    <div className="w-full">
+      {title && (
+        <h3 className="text-lg font-semibold mb-4 text-center">{title}</h3>
+      )}
+      <ResponsiveContainer width="100%" height={height}>
+        <RechartsLineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis 
+            dataKey={xKey} 
+            tick={{ fontSize: 12 }}
+            angle={-45}
+            textAnchor="end"
+            height={60}
+          />
+          <YAxis 
+            tick={{ fontSize: 12 }}
+            tickFormatter={(value) => formatCurrency(value)}
+          />
+          <Tooltip 
+            formatter={formatTooltipValue}
+            labelStyle={{ color: '#000' }}
+            contentStyle={{
+              backgroundColor: '#fff',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          />
+          <Legend />
+          <Line 
+            type="monotone" 
+            dataKey={yKey} 
+            stroke={color}
+            strokeWidth={3}
+            dot={{ fill: color, strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6 }}
+          />
+        </RechartsLineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
